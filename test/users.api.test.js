@@ -86,11 +86,17 @@ describe('Serverest API Users – Test Suite Completa', function () {
     expect(res.data.message || '').to.match(/Registro excluído com sucesso/i);
   });
 
-  it('POST /usuarios – valida campos obrigatórios (nome, email, password, administrador)', async () => {
+it('POST /usuarios – valida campos obrigatórios (nome, email, password, administrador)', async () => {
     const invalidUser = {};
     const res = await client.post('/', invalidUser);
     
-    expect(res.status).to.equal(400); // 👈 Garante o status 400
+    expect(res.status).to.equal(400); 
+
+    expect(res.data).to.have.property('email'); 
+    expect(res.data.email).to.match(/email é obrigatório|não pode ficar em branco/i);
+});
+    
+    expect(res.status).to.equal(400);
     expect(res.data.message || '').to.match(/Todos os campos são obrigatórios/i); 
   });
 
