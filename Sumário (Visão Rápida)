@@ -1,0 +1,11 @@
+Ferramenta de testes: Mocha (test runner) + Chai (assertions) + Axios (HTTP).
+
+Relatórios: mochawesome (HTML + JSON).
+
+CI: GitHub Actions (.github/workflows/ci-tests.yml) — executa testes e publica relatório como artefato.
+
+Endpoint de referência sugerido: https://serverest.dev (conforme enunciado).
+
+Testes cobrem: criação, leitura (lista e por id), atualização, exclusão, validações de campo obrigatório, autenticação JWT, e verificação de limitação de taxa (rate-limit).
+
+Artefato de pipeline: relatório HTML mochawesome.html.
