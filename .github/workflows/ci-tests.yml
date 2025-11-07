@@ -39,5 +39,3 @@ jobs:
         with:
           name: mochawesome-report
           path: reports/mochawesome.html
-
-// configurar API_BASE_URL, ADMIN_EMAIL, ADMIN_PASSWORD no Secrets do repositório GitHub (Settings → Secrets)
