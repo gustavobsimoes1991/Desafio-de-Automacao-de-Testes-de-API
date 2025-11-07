@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Testes automatizados API - Serverest (Desafio)",
   "scripts": {
-    "test": "mocha --recursive --timeout 120000 --reporter mochawesome --reporter-options reportDir=reports,reportFilename=mochawesome,quiet=true",
+    "test": "mocha --timeout 120000 --reporter mochawesome --reporter-options reportDir=reports,reportFilename=mochawesome,quiet=true",
     "test:ci": "npm test"
   },
   "dependencies": {
