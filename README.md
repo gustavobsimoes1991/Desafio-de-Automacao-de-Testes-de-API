@@ -17,17 +17,17 @@ Conjunto de testes automatizados para a API de usuários (CRUD). Implementado co
    git clone <repo-url>
    cd api-tests
 
-2. Crie .env:
+2. Crie .env
 cp .env.example .env
 # edite .env e informe API_BASE_URL, ADMIN_EMAIL e ADMIN_PASSWORD
 
-3. Instale dependências:
+3. Instale dependências
 npm ci
 
-4. Executar testes:
+4. Executar testes
 npm test
 
-5. Relatório:
+5. Relatório
 Após execução, o relatório HTML ficará em reports/mochawesome.html.
 Abra no navegador.
 
