@@ -1,0 +1,43 @@
+name: CI - API Tests
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create .env from secrets
+        env:
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+          ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+        run: |
+          echo "API_BASE_URL=${API_BASE_URL}" > .env
+          echo "ADMIN_EMAIL=${ADMIN_EMAIL}" >> .env
+          echo "ADMIN_PASSWORD=${ADMIN_PASSWORD}" >> .env
+
+      - name: Run tests
+        run: npm test
+
+      - name: Upload mochawesome report
+        uses: actions/upload-artifact@v4
+        with:
+          name: mochawesome-report
+          path: reports/mochawesome.html
+
+// configurar API_BASE_URL, ADMIN_EMAIL, ADMIN_PASSWORD no Secrets do repositório GitHub (Settings → Secrets)
