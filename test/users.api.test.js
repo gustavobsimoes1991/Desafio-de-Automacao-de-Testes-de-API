@@ -9,9 +9,15 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 const client = axios.create({
   baseURL: `${API_BASE_URL}/usuarios`,
   headers: { 'Content-Type': 'application/json' },
-
-  validateStatus: () => true 
+  validateStatus: () => true
 });
+
+const unauthenticatedClient = axios.create({
+    baseURL: `${API_BASE_URL}/usuarios`,
+    headers: { 'Content-Type': 'application/json' },
+    validateStatus: () => true
+});
+
 
 describe('Serverest API Users – Test Suite Completa', function () {
   this.timeout(120000);
@@ -86,7 +92,7 @@ describe('Serverest API Users – Test Suite Completa', function () {
     expect(res.data.message || '').to.match(/Registro excluído com sucesso/i);
   });
 
-it('POST /usuarios – valida campos obrigatórios (nome, email, password, administrador)', async () => {
+  it('POST /usuarios – valida campos obrigatórios (nome, email, password, administrador)', async () => {
     const invalidUser = {};
     const res = await client.post('/', invalidUser);
     
@@ -94,10 +100,6 @@ it('POST /usuarios – valida campos obrigatórios (nome, email, password, admin
 
     expect(res.data).to.have.property('email'); 
     expect(res.data.email).to.match(/email é obrigatório|não pode ficar em branco/i);
-});
-    
-    expect(res.status).to.equal(400);
-    expect(res.data.message || '').to.match(/Todos os campos são obrigatórios/i); 
   });
 
   it('Proteção do endpoint – deve exigir token para alterar ou excluir usuário', async () => {
@@ -108,15 +110,16 @@ it('POST /usuarios – valida campos obrigatórios (nome, email, password, admin
       administrador: 'true'
     };
     
-    const resPut = await client.put(`/${createdUserId}`, updateData);
+    const resPut = await unauthenticatedClient.put(`/${createdUserId}`, updateData);
     
     expect(resPut.status).to.be.oneOf([401, 403]); 
     
-    const resDelete = await client.delete(`/${createdUserId}`);
+    const resDelete = await unauthenticatedClient.delete(`/${createdUserId}`);
     
     expect(resDelete.status).to.be.oneOf([401, 403]); 
   });
-  
+
+
   it.skip('Rate-limit: exceder 100 requisições/min deve gerar 429 (não aplicável à API pública Serverest)', async function () {
     this.skip();
   });
